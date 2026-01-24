@@ -1,5 +1,5 @@
 import unittest
-from htmlnode import HTMLNode
+from htmlnode import HTMLNode, LeafNode
 
 class TestHTMLNode(unittest.TestCase):
 
@@ -45,6 +45,13 @@ class TestHTMLNode(unittest.TestCase):
 			props = {"href": "https://archlinux.org", "target": "_blank"}
 		)
 		self.assertIsNone(childNode.tag)
+	def test_leaf_to_html_p(self):
+		node = LeafNode("p", "Hello, world!")
+		self.assertEqual(node.to_html(), "<p>Hello, world!</p>")
+
+	def test_leaf_to_html_a_href(self):
+		node = LeafNode("a", "Hello, world!", {"href":"https://www.archlinux.org"})
+		self.assertEqual(node.to_html(), '<a href="https://www.archlinux.org">Hello, world!</a>')
 
 
 if __name__ == "__main__":
