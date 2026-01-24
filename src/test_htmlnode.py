@@ -53,19 +53,26 @@ class TestHTMLNode(unittest.TestCase):
 		node = LeafNode("a", "Hello, world!", {"href":"https://www.archlinux.org"})
 		self.assertEqual(node.to_html(), '<a href="https://www.archlinux.org">Hello, world!</a>')
 	
+	#CHILDREN TESTS
+	
 	def test_to_html_with_children(self):
-	    child_node = LeafNode("span", "child")
-	    parent_node = ParentNode("div", [child_node])
-	    self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
+		child_node = LeafNode("span", "child")
+		parent_node = ParentNode("div", [child_node])
+		self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
 
 	def test_to_html_with_grandchildren(self):
-	    grandchild_node = LeafNode("b", "grandchild")
-	    child_node = ParentNode("span", [grandchild_node])
-	    parent_node = ParentNode("div", [child_node])
-	    self.assertEqual(
-	        parent_node.to_html(),
-	        "<div><span><b>grandchild</b></span></div>",
-	    )
+		grandchild_node = LeafNode("b", "grandchild")
+		child_node = ParentNode("span", [grandchild_node])
+		parent_node = ParentNode("div", [child_node])
+		self.assertEqual(
+		parent_node.to_html(),
+			"<div><span><b>grandchild</b></span></div>",
+		)
+	def test_children_with_props(self):
+		child_node = LeafNode("a","child",{"href":"https://www.archlinux.org"})
+		parent_node = ParentNode("p",[child_node])
+		self.assertEqual(parent_node.to_html(), '<p><a href="https://www.archlinux.org">child</a></p>')
 
+# End definitions
 if __name__ == "__main__":
 	unittest.main()
