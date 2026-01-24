@@ -1,5 +1,6 @@
 import unittest
 from htmlnode import HTMLNode, LeafNode, ParentNode
+from textnode import TextNode, TextType, text_node_to_html_node
 
 class TestHTMLNode(unittest.TestCase):
 
@@ -72,6 +73,13 @@ class TestHTMLNode(unittest.TestCase):
 		child_node = LeafNode("a","child",{"href":"https://www.archlinux.org"})
 		parent_node = ParentNode("p",[child_node])
 		self.assertEqual(parent_node.to_html(), '<p><a href="https://www.archlinux.org">child</a></p>')
+
+	#Text Tests
+	def test_text(self):
+		node = TextNode("This is a text node", TextType.PLAIN)
+		html_node = text_node_to_html_node(node)
+		self.assertEqual(html_node.tag, None)
+		self.assertEqual(html_node.value, "This is a text node")
 
 # End definitions
 if __name__ == "__main__":
