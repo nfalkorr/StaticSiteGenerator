@@ -33,3 +33,18 @@ class LeafNode(HTMLNode):
 
 	def __repr__(self):
 		return f"LeafNode(tag={self.tag}, value={self.value}, props={self.props})"
+
+class ParentNode(HTMLNode):
+	def __init__(self,tag,children,props = None):
+		super().__init__(tag,None,children,props)
+
+	def to_html(self):
+		if self.tag is None:
+			raise ValueError("All Parents must have tags")
+		if self.children is None:
+			raise ValueError("There is no child to parent")
+
+		concatanate_html = ""
+		for child in self.children:
+			concatanate_html += child.to_html()
+		return f"<{self.tag}>{concatanate_html}</{self.tag}>"
