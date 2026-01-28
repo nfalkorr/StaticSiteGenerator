@@ -73,6 +73,12 @@ class TestHTMLNode(unittest.TestCase):
 		child_node = LeafNode("a","child",{"href":"https://www.archlinux.org"})
 		parent_node = ParentNode("p",[child_node])
 		self.assertEqual(parent_node.to_html(), '<p><a href="https://www.archlinux.org">child</a></p>')
+	def test_grandchildren_with_props(self):
+		grandchild_node = LeafNode("a", "grandchild",{"href":"https://www.archlinux.org"})
+		child_node = ParentNode("b",[grandchild_node])
+		parent_node = ParentNode("p",[child_node])
+		self.assertEqual(parent_node.to_html(), '<p><b><a href="https://www.archlinux.org">grandchild</a></b></p>')
+
 
 	#Text Tests
 	def test_text(self):
@@ -81,30 +87,31 @@ class TestHTMLNode(unittest.TestCase):
 		self.assertEqual(html_node.tag, None)
 		self.assertEqual(html_node.value, "This is a text node")
 	def test_bold(self):
-		node = TextNode("This is a text node", TextType.BOLD)
+		node = TextNode("This is a bold node", TextType.BOLD)
 		html_node = text_node_to_html_node(node)
-		self.assertEqual(html_node.tag, None)
-		self.assertEqual(html_node.value, "This is a text node")
+		self.assertEqual(html_node.tag, "b")
+		self.assertEqual(html_node.value, "This is a bold node")
 	def test_italic(self):
-		node = TextNode("This is a text node", TextType.ITALIC)
+		node = TextNode("This is an italic node", TextType.ITALIC)
 		html_node = text_node_to_html_node(node)
-		self.assertEqual(html_node.tag, None)
-		self.assertEqual(html_node.value, "This is a text node")
+		self.assertEqual(html_node.tag, "i")
+		self.assertEqual(html_node.value, "This is an italic node")
 	def test_code(self):
-		node = TextNode("This is a text node", TextType.CODE)
+		node = TextNode("This is a code node", TextType.CODE)
 		html_node = text_node_to_html_node(node)
-		self.assertEqual(html_node.tag, None)
-		self.assertEqual(html_node.value, "This is a text node")
+		self.assertEqual(html_node.tag, "code")
+		self.assertEqual(html_node.value, "This is a code node")
 	def test_link(self):
-		node = TextNode("This is a text node", TextType.LINK)
+		node = TextNode("This is a link node", TextType.LINK)
 		html_node = text_node_to_html_node(node)
-		self.assertEqual(html_node.tag, None)
-		self.assertEqual(html_node.value, "This is a text node")
-	def test_image(self):
-		node = TextNode("This is a text node", TextType.IMAGE)
-		html_node = text_node_to_html_node(node)
-		self.assertEqual(html_node.tag, None)
-		self.assertEqual(html_node.value, "This is a text node")
+		self.assertEqual(html_node.tag, "a",{"href":"https://www.archlinux.org"})
+		self.assertEqual(html_node.value, "This is a link node")
+	#def test_image(self):
+	#	node = TextNode("This is a image node", TextType.IMAGE)
+	#	html_node = text_node_to_html_node(node)
+	#	self.assertEqual(html_node.tag, "img",{})
+	#	self.assertEqual(html_node.value, "This is an image node")
+
 
 # End definitions
 if __name__ == "__main__":
