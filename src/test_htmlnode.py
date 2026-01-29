@@ -61,13 +61,17 @@ class TestHTMLNode(unittest.TestCase):
 		parent_node = ParentNode("div", [child_node])
 		self.assertEqual(parent_node.to_html(), "<div><span>child</span></div>")
 
+	def test_to_html_several_children(self):
+		node = ParentNode( "p", [ LeafNode(None,"plain"),LeafNode("i", "italic"),LeafNode("b", "bold") ] )
+		self.assertEqual(node.to_html(),"<p>plain<i>italic</i><b>bold</b></p>")
+		
 	def test_to_html_with_grandchildren(self):
 		grandchild_node = LeafNode("b", "grandchild")
 		child_node = ParentNode("span", [grandchild_node])
 		parent_node = ParentNode("div", [child_node])
 		self.assertEqual(
-		parent_node.to_html(),
-			"<div><span><b>grandchild</b></span></div>",
+			parent_node.to_html(),
+				"<div><span><b>grandchild</b></span></div>",
 		)
 	def test_children_with_props(self):
 		child_node = LeafNode("a","child",{"href":"https://www.archlinux.org"})
@@ -109,7 +113,7 @@ class TestHTMLNode(unittest.TestCase):
 	#def test_image(self):
 	#	node = TextNode("This is a image node", TextType.IMAGE)
 	#	html_node = text_node_to_html_node(node)
-	#	self.assertEqual(html_node.tag, "img",{})
+	#	self.assertEqual(html_node.tag, "img",{"src":"image/source","alt":"alt text"})
 	#	self.assertEqual(html_node.value, "This is an image node")
 
 
