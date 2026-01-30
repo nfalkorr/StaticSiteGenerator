@@ -23,5 +23,18 @@ class TestTextNode(unittest.TestCase):
 		node2 = TextNode("This is an ITALIC text node", TextType.ITALIC)
 		self.assertNotEqual(node, node2)
 
+class TestTextNodeToHTMLNode(unittest.TestCase):
+	def test_plain(self):
+		node = TextNode("plain text",TextType.PLAIN)
+		html_node = text_node_to_html_node(node)
+		self.assertEqual(html_node.tag, None)
+		self.assertEqual(html_node.value, "plain text")
+	def test_image(self):
+		node = TextNode("image node", TextType.IMAGE, "https://archlinux.org")
+		html_node = text_node_to_html_node(node)
+		self.assertEqual(html_node.tag, "img")
+		self.assertEqual(html_node.value,"")
+		self.assertEqual(html_node.props,{"src":"https://archlinux.org","alt":"image node"})
+
 if __name__ == "__main__":
     unittest.main()
